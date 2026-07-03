@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Navigation Menu</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    overflow-x:hidden;
+}
+
+/* Navigation Bar */
+nav{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 60px;
+    background:transparent;
+    transition:0.4s;
+    z-index:1000;
+}
+
+nav.scrolled{
+    background:#1e293b;
+    box-shadow:0 4px 10px rgba(0,0,0,0.3);
+}
+
+.logo{
+    color:#fff;
+    font-size:28px;
+    font-weight:bold;
+}
+
+nav ul{
+    display:flex;
+    list-style:none;
+}
+
+nav ul li{
+    margin-left:25px;
+}
+
+nav ul li a{
+    text-decoration:none;
+    color:white;
+    font-size:18px;
+    padding:8px 15px;
+    border-radius:20px;
+    transition:0.3s;
+}
+
+nav ul li a:hover{
+    background:#38bdf8;
+    color:#111;
+}
+
+/* Sections */
+section{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    color:white;
+    text-align:center;
+}
+
+section h1{
+    font-size:50px;
+    margin-bottom:15px;
+}
+
+section p{
+    font-size:20px;
+}
+
+#home{
+    background:linear-gradient(135deg,#667eea,#764ba2);
+}
+
+#about{
+    background:#2563eb;
+}
+
+#services{
+    background:#10b981;
+}
+
+#portfolio{
+    background:#f97316;
+}
+
+#contact{
+    background:#111827;
+}
+
+/* Responsive */
+@media(max-width:768px){
+
+    nav{
+        flex-direction:column;
+        padding:15px;
+    }
+
+    nav ul{
+        margin-top:12px;
+        flex-wrap:wrap;
+        justify-content:center;
+    }
+
+    nav ul li{
+        margin:8px;
+    }
+
+    section h1{
+        font-size:36px;
+    }
+
+    section p{
+        font-size:18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<nav id="navbar">
+    <div class="logo">SkillCraft</div>
+
+    <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
+
+<section id="home">
+    <h1>Interactive Navigation Menu</h1>
+    <p>Scroll down to see the navigation bar change color.</p>
+</section>
+
+<section id="about">
+    <h1>About</h1>
+    <p>Fixed navigation bar visible on every section.</p>
+</section>
+
+<section id="services">
+    <h1>Services</h1>
+    <p>Hover over the menu items to see the effect.</p>
+</section>
+
+<section id="portfolio">
+    <h1>Portfolio</h1>
+    <p>The navbar remains fixed while scrolling.</p>
+</section>
+
+<section id="contact">
+    <h1>Contact</h1>
+    <p>SkillCraft Technology Internship - Task 1</p>
+</section>
+
+<script>
+const navbar = document.getElementById("navbar");
+
+window.addEventListener("scroll", function () {
+    if (window.scrollY > 80) {
+        navbar.classList.add("scrolled");
+    } else {
+        navbar.classList.remove("scrolled");
+    }
+});
+</script>
+
+</body>
+</html>
