@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Quiz Game</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#4facfe,#00f2fe);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    padding:20px;
+}
+
+.container{
+    width:100%;
+    max-width:650px;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 10px 20px rgba(0,0,0,.2);
+}
+
+h1{
+    text-align:center;
+    margin-bottom:20px;
+    color:#333;
+}
+
+#question{
+    font-size:22px;
+    margin-bottom:20px;
+    font-weight:bold;
+}
+
+.option{
+    display:block;
+    background:#f4f4f4;
+    padding:12px;
+    margin:10px 0;
+    border-radius:8px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.option:hover{
+    background:#d6ecff;
+}
+
+button{
+    width:100%;
+    margin-top:20px;
+    padding:12px;
+    border:none;
+    background:#007bff;
+    color:white;
+    font-size:18px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#0056b3;
+}
+
+#result{
+    text-align:center;
+    font-size:22px;
+    font-weight:bold;
+    margin-top:20px;
+}
+
+.hidden{
+    display:none;
+}
+
+input[type=text]{
+    width:100%;
+    padding:12px;
+    font-size:18px;
+    border-radius:8px;
+    border:1px solid #ccc;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Interactive Quiz Game</h1>
+
+<div id="quiz">
+
+<div id="question"></div>
+
+<div id="options"></div>
+
+<input type="text" id="fillAnswer" class="hidden" placeholder="Type your answer">
+
+<button onclick="nextQuestion()">Next</button>
+
+</div>
+
+<div id="result"></div>
+
+</div>
+
+<script>
+
+const questions=[
+
+{
+type:"single",
+question:"1. Which language is used for web page styling?",
+options:["HTML","CSS","Python","Java"],
+answer:"CSS"
+},
+
+{
+type:"multi",
+question:"2. Which of these are JavaScript frameworks?",
+options:["React","Angular","Python","Vue"],
+answer:["React","Angular","Vue"]
+},
+
+{
+type:"fill",
+question:"3. HTML stands for __________.",
+answer:"HyperText Markup Language"
+},
+
+{
+type:"single",
+question:"4. Which symbol is used for comments in JavaScript?",
+options:["//","<!-- -->","#","**"],
+answer:"//"
+},
+
+{
+type:"fill",
+question:"5. What keyword declares a constant in JavaScript?",
+answer:"const"
+}
+
+];
+
+let current=0;
+let score=0;
+
+const question=document.getElementById("question");
+const options=document.getElementById("options");
+const fill=document.getElementById("fillAnswer");
+const result=document.getElementById("result");
+
+function loadQuestion(){
+
+fill.classList.add("hidden");
+options.innerHTML="";
+
+const q=questions[current];
+
+question.innerHTML=q.question;
+
+if(q.type==="single"){
+
+q.options.forEach(option=>{
+
+options.innerHTML+=`
+<label class="option">
+<input type="radio" name="answer" value="${option}">
+${option}
+</label>
+`;
+
+});
+
+}
+
+else if(q.type==="multi"){
+
+q.options.forEach(option=>{
+
+options.innerHTML+=`
+<label class="option">
+<input type="checkbox" value="${option}">
+${option}
+</label>
+`;
+
+});
+
+}
+
+else{
+
+fill.classList.remove("hidden");
+fill.value="";
+}
+
+}
+
+loadQuestion();
+
+function nextQuestion(){
+
+const q=questions[current];
+
+let correct=false;
+
+if(q.type==="single"){
+
+const selected=document.querySelector("input[name='answer']:checked");
+
+if(selected && selected.value===q.answer)
+correct=true;
+
+}
+
+else if(q.type==="multi"){
+
+const checked=[...document.querySelectorAll("input[type='checkbox']:checked")].map(x=>x.value);
+
+correct=checked.length===q.answer.length &&
+checked.every(v=>q.answer.includes(v));
+
+}
+
+else{
+
+correct=fill.value.trim().toLowerCase()===q.answer.toLowerCase();
+
+}
+
+if(correct) score++;
+
+current++;
+
+if(current<questions.length){
+
+loadQuestion();
+
+}
+
+else{
+
+document.getElementById("quiz").style.display="none";
+
+result.innerHTML=`
+🎉 Quiz Completed! <br><br>
+Your Score: ${score} / ${questions.length}<br><br>
+Percentage: ${(score/questions.length*100).toFixed(0)}%
+`;
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
